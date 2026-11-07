@@ -209,7 +209,25 @@ jobs:
           if [ "$TYPE" = "nightly" ]; then
             TAG="nightly-$DATE"
           elif [ "$TYPE" = "release" ] && [ -n "$VER" ]; then
-            TAG="$VER"
+            # hotfix 版本是四段（v0.1.37.2），但源码里的 VER_* 仍是三段（v0.1.37）。
+            # 直接拿 VER 会撞上已存在的三段 tag（发布步骤报「已存在，拒绝覆盖」）。
+            # 上游分支名与 release tag 一一对应（release/0.1.37.2 -> v0.1.37.2），
+            # 优先按分支名还原 tag；三段正式版走同一路径，结果与 VER 一致。
+            UP_SLUG=$(printf '%s' "$UPSTREAM_REPO" | sed -E 's#^https://github.com/##; s#\.git$##')
+            BR="${{ steps.upbranch.outputs.branch }}"
+            TAG=""
+            if [ -n "$BR" ] && [ "${BR#release/}" != "$BR" ]; then
+              CAND="v${BR#release/}"
+              if [ "$CAND" != "$VER" ]; then
+                if gh api "repos/$UP_SLUG/releases?per_page=50" \
+                     --jq '.[] | select(.draft == false) | .tag_name' 2>/dev/null \
+                   | grep -qx "$CAND"; then
+                  echo "源码版本 $VER，但分支 $BR 对应 hotfix tag $CAND，改用后者"
+                  TAG="$CAND"
+                fi
+              fi
+            fi
+            [ -z "$TAG" ] && TAG="$VER"
           else
             # auto：上游 fork 发过 $VER 对应的正式版 tag、且本仓库还没发过
             # -> 发正式版，否则 nightly。
