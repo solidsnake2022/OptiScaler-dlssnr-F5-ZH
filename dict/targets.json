@@ -6,7 +6,10 @@
   "OptiScaler/dlssnr/**/*.cpp",
   "OptiScaler/dlssnr/**/*.h",
   "OptiScaler/shaders/dlssnr/**/*.cpp",
-  "OptiScaler/shaders/dlssnr/**/*.inl"
+  "OptiScaler/shaders/dlssnr/**/*.inl",
+  "OptiScaler/shaders/dlssnr/DlssNr_ColourEncoding.h",
+  "OptiScaler/shaders/dlssnr/DlssNr_ExposureCalibrate.h",
+  "OptiScaler/shaders/dlssnr/DlssNr_FollowGame.h"
  ],
  "exclude": [
   "OptiScaler/menu/font/ChineseGlyphRanges.h"
