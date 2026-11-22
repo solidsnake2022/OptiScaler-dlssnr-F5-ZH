@@ -37,6 +37,7 @@
  "%7.2f ms": "%7.2f 毫秒",
  "%d (normal)": "%d（普通）",
  "%dx model cost": "%dx 模型开销",
+ "%s - %s %s %s %s": "%s（小张snake 汉化） - %s %s %s %s",
  "%s can't take this preset, it keeps the driver profile's": "%s 无法使用此预设，会保留驱动配置中的预设",
  "%s doesn't read the %s setting; it keeps its own model.": "%s 不读取 %s 设置，会保留自己的模型。",
  "%s is active, but not currently used by the game. Please enter the game.": "%s 已启用，但游戏当前未使用它。请进入游戏。",
